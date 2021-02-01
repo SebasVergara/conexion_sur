@@ -14,62 +14,123 @@ class PostList extends StatefulWidget {
 
 class _PostListState extends State<PostList>
     with AutomaticKeepAliveClientMixin {
-  List<Post> posts = new List<Post>();
   bool isLoading = false;
   ScrollController _scrollController = new ScrollController();
   int page = 0;
 
-  void getPosts() {
-    if (!isLoading) {
-      setState(() {
-        page++;
-        isLoading = true;
+  bool _hasMore;
+  int _pageNumber;
+  bool _error;
+  bool _loading;
+  final int _defaultPhotosPerPageCount = 10;
+  List<Post> _posts;
+  final int _nextPageThreshold = 8;
+
+  void getPosts() async {
+    try {
+      API.getPosts(category: 0, page: _pageNumber).then((_post) {
+        setState(() {
+          isLoading = false;
+          _posts.addAll(_post);
+        });
       });
 
-      API.getPosts(category: 0, page: page).then((_post) {
-        setState(() {
-          print(_post);
-          isLoading = false;
-          posts.addAll(_post);
-        });
+      setState(() {
+        _hasMore = _posts.length == _defaultPhotosPerPageCount;
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+      });
+    } catch (e) {
+      print('ERROR');
+      setState(() {
+        _loading = false;
+        _error = true;
       });
     }
   }
 
   @override
   void initState() {
-    super.initState();
+    _hasMore = true;
+    _pageNumber = 0;
+    _error = false;
+    _loading = true;
+    _posts = [];
     getPosts();
-    _scrollController.addListener(() {
-      print(_scrollController.position.pixels);
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent - 0) {
-        getPosts();
-      }
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return CustomScrollView(
-      physics: new AlwaysScrollableScrollPhysics(),
-      controller: _scrollController,
-      slivers: [
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return postItem(context, index);
-              },
-              childCount: posts.length,
-            )
-        ),
-      ],
-    );
+    return getBody();
   }
 
   Widget postItem(BuildContext context, int index) {
-    return PostItem(posts[index]);
+    print(_posts.length);
+    print(index);
+    return PostItem(_posts[index]);
+  }
+
+  Widget getBody() {
+    if (_posts.isEmpty) {
+      if (_loading) {
+        return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: CircularProgressIndicator(),
+            ));
+      } else if (_error) {
+        return Center(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  _loading = true;
+                  _error = false;
+                  getPosts();
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text("Error while loading photos, tap to try agin"),
+              ),
+            ));
+      }
+    } else {
+      return ListView.builder(
+          itemCount: _posts.length + (_hasMore ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == _posts.length - _nextPageThreshold) {
+              getPosts();
+            }
+            if (index == _posts.length) {
+              if (_error) {
+                return Center(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _loading = true;
+                          _error = false;
+                          getPosts();
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text("Error while loading photos, tap to try agin"),
+                      ),
+                    ));
+              } else {
+                return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CircularProgressIndicator(),
+                    ));
+              }
+            }
+            return postItem(context, index);
+          });
+    }
+    return Container();
   }
 
   @override

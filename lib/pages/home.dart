@@ -48,18 +48,79 @@ class _HomePageState extends State<HomePage> {
 //              tabsData.add(Center(child: CircularProgressIndicator(),));
             }
             return DefaultTabController(
+//                length: snapshot.data.length + 1,
               length: snapshot.data.length + 1,
-              child: CustomScrollView(
-                physics: new ClampingScrollPhysics(),
-                controller: _scrollControllers,
-                slivers: [
-                  headerSliverApp(),
-                  lastBroadcastTitle(),
-                  LastBroadCastList(),
-                  categoriesHorizontalTabs(tabs),
-                  categoriesTabs(tabsData),
-                ],
-              ),
+              child: NestedScrollView(
+                headerSliverBuilder: (context, value) {
+                  return [
+                    SliverAppBar(
+                      floating: true,
+                      pinned: true,
+                      bottom: TabBar(
+                        labelColor: Theme.of(context).primaryColor,
+                        indicatorColor: Colors.pink,
+                        isScrollable: true,
+                        tabs: tabs,
+                        indicator: UnderlineTabIndicator(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 3.0),
+                        ),
+//                        tabs: [
+//                          Tab(text: "Posts"),
+//                          Tab(text: "Likes"),
+//                        ],
+                      ),
+                      expandedHeight: 450,
+                      flexibleSpace: FlexibleSpaceBar(
+                        collapseMode: CollapseMode.pin,
+//                        background: Profile(), // This is where you build the profile part
+                      ),
+                    ),
+                  ];
+                },
+                body: TabBarView(
+                  children: tabsData
+//                  [
+//                    Container(
+//                      child: ListView.builder(
+//                        itemCount: 100,
+//                        itemBuilder: (context, index) {
+//                          return Container(
+//                            height: 40,
+//                            alignment: Alignment.center,
+//                            color: Colors.lightBlue[100 * (index % 9)],
+//                            child: Text('List Item $index'),
+//                          );
+//                        },
+//                      ),
+//                    ),
+//                    Container(
+//                      child: ListView.builder(
+//                        itemCount: 100,
+//                        itemBuilder: (context, index) {
+//                          return Container(
+//                            height: 40,
+//                            alignment: Alignment.center,
+//                            color: Colors.lightBlue[100 * (index % 9)],
+//                            child: Text('List Item $index'),
+//                          );
+//                        },
+//                      ),
+//                    ),
+//                  ],
+                ),
+              )
+//              CustomScrollView(
+//                physics: new ClampingScrollPhysics(),
+//                controller: _scrollControllers,
+//                slivers: [
+//                  headerSliverApp(),
+//                  lastBroadcastTitle(),
+//                  LastBroadCastList(),
+//                  categoriesHorizontalTabs(tabs),
+//                  categoriesTabs(tabsData),
+//                ],
+//              ),
             );
           },
         ),

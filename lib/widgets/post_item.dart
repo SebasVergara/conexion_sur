@@ -21,19 +21,20 @@ class PostItem extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 14.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    'assets/images/placeholder.jpg',
-                    width: 100,
-                    height: 85,
-                    fit: BoxFit.cover,
-                  ),
-//                  CachedImage(
-//                    post.featuredImage.toString(),
+                  child:
+//                  Image.asset(
+//                    'assets/images/placeholder.jpg',
 //                    width: 100,
 //                    height: 85,
-//                    fit: BoxFit.fitHeight,
-//                    align: Alignment.bottomRight,
+//                    fit: BoxFit.cover,
 //                  ),
+                  CachedImage(
+                    post.featuredImage.toString(),
+                    width: 100,
+                    height: 85,
+                    fit: BoxFit.fitHeight,
+                    align: Alignment.bottomRight,
+                  ),
                 ),
               ),
               Flexible(
@@ -44,8 +45,8 @@ class PostItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "This is an example of titles for the list",
-//                        post.title,
+//                        "This is an example of titles for the list",
+                        post.title,
                         textAlign: TextAlign.left,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
