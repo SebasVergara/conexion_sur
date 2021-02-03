@@ -6,7 +6,8 @@ import 'package:conexionsur/widgets/post_item.dart';
 
 class PostList extends StatefulWidget {
   ScrollController scrollControllers;
-  PostList({this.scrollControllers});
+  String category;
+  PostList({this.scrollControllers, this.category});
 
   @override
   _PostListState createState() => _PostListState();
@@ -24,21 +25,18 @@ class _PostListState extends State<PostList>
   bool _loading;
   final int _defaultPhotosPerPageCount = 10;
   List<Post> _posts;
-  final int _nextPageThreshold = 8;
+  final int _nextPageThreshold = 9;
 
   void getPosts() async {
     try {
-      API.getPosts(category: 0, page: _pageNumber).then((_post) {
+      API.getPosts(category: widget.category, page: _pageNumber).then((_post) {
         setState(() {
           isLoading = false;
           _posts.addAll(_post);
+          _hasMore = _posts.length == _defaultPhotosPerPageCount;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
         });
-      });
-
-      setState(() {
-        _hasMore = _posts.length == _defaultPhotosPerPageCount;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
       });
     } catch (e) {
       print('ERROR');
@@ -67,8 +65,6 @@ class _PostListState extends State<PostList>
   }
 
   Widget postItem(BuildContext context, int index) {
-    print(_posts.length);
-    print(index);
     return PostItem(_posts[index]);
   }
 

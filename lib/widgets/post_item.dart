@@ -13,74 +13,94 @@ class PostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Padding(padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 14.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xCCFFFFFF),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFFdbe2fb).withOpacity(0.7),
+                  spreadRadius: 1,
+                  blurRadius: 15,
+                  offset: Offset(0, 6), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.0),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 14.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
 //                  Image.asset(
 //                    'assets/images/placeholder.jpg',
 //                    width: 100,
 //                    height: 85,
 //                    fit: BoxFit.cover,
 //                  ),
-                  CachedImage(
-                    post.featuredImage.toString(),
-                    width: 100,
-                    height: 85,
-                    fit: BoxFit.fitHeight,
-                    align: Alignment.bottomRight,
+                          CachedImage(
+                        post.featuredImage.toString(),
+                        width: 100,
+                        height: 95,
+                        fit: BoxFit.fitHeight,
+                        align: Alignment.bottomRight,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Flexible(
-                child: SizedBox(
-                  height: 85.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
+                  Flexible(
+                    child: SizedBox(
+                      height: 95.0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
 //                        "This is an example of titles for the list",
-                        post.title,
-                        textAlign: TextAlign.left,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5,
+                              post.title,
+                              textAlign: TextAlign.left,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      MdiIcons.calendarMonthOutline,
+                                      size: 18.0,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                                    Text(
+                                      post.date,
+                                      style: TextStyle(
+                                          fontSize: 11.0,
+                                          color: Theme.of(context).accentColor),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                MdiIcons.calendarMonthOutline,
-                                size: 18.0,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              Text(
-                                post.date,
-                                style: TextStyle(fontSize: 11.0, color: Theme.of(context).accentColor),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: 20.0))
       ],
     );
   }

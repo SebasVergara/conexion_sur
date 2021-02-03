@@ -40,16 +40,12 @@ class LastBroadcastsCard extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: 160.0,
-                  child: AspectRatio(
-                      aspectRatio: 5 / 3,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30.0),
-                        child: Image.asset(
-                            'assets/images/placeholder.jpg',
-                          fit: BoxFit.cover,
-                        ),
-//                        CachedImage(broadcast.thumbnail),
-                      )
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: AspectRatio(
+                        aspectRatio: 5 / 3,
+                        child: CachedImage(broadcast.thumbnail),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -61,8 +57,7 @@ class LastBroadcastsCard extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 16.0),
                         child: AutoSizeText(
-                          "This is an example of titles for the cards",
-//                          broadcast.title,
+                          broadcast.title,
                           style: Theme.of(context).textTheme.headline3,
                           maxLines: 2,
                           minFontSize: 16,

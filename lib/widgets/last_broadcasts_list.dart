@@ -31,13 +31,10 @@ class _LastBroadCastListState extends State<LastBroadCastList>
   Widget build(BuildContext context) {
     super.build(context);
     return isLoading
-        ? SliverToBoxAdapter(
-            child: Center(
+        ? Center(
               child: CircularProgressIndicator(),
-            ),
-          )
-        : SliverToBoxAdapter(
-            child: Container(
+        )
+        : Container(
               height: 270.0,
               alignment: Alignment.topLeft,
               child: ListView.builder(
@@ -47,8 +44,7 @@ class _LastBroadCastListState extends State<LastBroadCastList>
                   return broadcastCard(context, index);
                 },
               ),
-            ),
-          );
+        );
   }
 
   Widget broadcastCard(BuildContext context, int index) {

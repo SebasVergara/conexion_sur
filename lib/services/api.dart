@@ -47,11 +47,11 @@ class API {
     return list;
   }
 
-  static Future<List<Post>> getPosts({int category = 0, int page = 1}) async {
+  static Future<List<Post>> getPosts({String category = '0', int page = 1}) async {
     List<Post> list = [];
     int offset = page * 10;
     try {
-      String extra = category != 0 ? '&categoryIds=' + '$category' : '';
+      String extra = category != '0' ? '&categoryIds=' + '$category' : '';
 
       dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/posts?size=10&offset=$offset" + extra, headers: {"Authorization": AUTH_TOKEN});
       dynamic json = jsonDecode(response.body);

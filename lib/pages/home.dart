@@ -17,6 +17,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+          title: Image.asset(
+            "assets/images/logoBK.png",
+            height: 35.0,
+          ),
+      ),
       body: SafeArea(
         child: FutureBuilder(
           future: API.getCategories(),
@@ -36,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ));
-                tabsData.add(PostList());
+                tabsData.add(PostList(category: '0'));
               }
               tabs.add(Tab(
                 child: Text(
@@ -44,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
               ));
-              tabsData.add(PostList());
+              tabsData.add(PostList(category: snapshot.data[i].id));
 //              tabsData.add(Center(child: CircularProgressIndicator(),));
             }
             return DefaultTabController(
@@ -65,66 +71,45 @@ class _HomePageState extends State<HomePage> {
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor, width: 3.0),
                         ),
-//                        tabs: [
-//                          Tab(text: "Posts"),
-//                          Tab(text: "Likes"),
-//                        ],
                       ),
-                      expandedHeight: 450,
+                      expandedHeight: 380,
                       flexibleSpace: FlexibleSpaceBar(
                         collapseMode: CollapseMode.pin,
-//                        background: Profile(), // This is where you build the profile part
+                        background: headerContent(), // This is where you build the profile part
                       ),
                     ),
                   ];
                 },
                 body: TabBarView(
                   children: tabsData
-//                  [
-//                    Container(
-//                      child: ListView.builder(
-//                        itemCount: 100,
-//                        itemBuilder: (context, index) {
-//                          return Container(
-//                            height: 40,
-//                            alignment: Alignment.center,
-//                            color: Colors.lightBlue[100 * (index % 9)],
-//                            child: Text('List Item $index'),
-//                          );
-//                        },
-//                      ),
-//                    ),
-//                    Container(
-//                      child: ListView.builder(
-//                        itemCount: 100,
-//                        itemBuilder: (context, index) {
-//                          return Container(
-//                            height: 40,
-//                            alignment: Alignment.center,
-//                            color: Colors.lightBlue[100 * (index % 9)],
-//                            child: Text('List Item $index'),
-//                          );
-//                        },
-//                      ),
-//                    ),
-//                  ],
                 ),
-              )
-//              CustomScrollView(
-//                physics: new ClampingScrollPhysics(),
-//                controller: _scrollControllers,
-//                slivers: [
-//                  headerSliverApp(),
-//                  lastBroadcastTitle(),
-//                  LastBroadCastList(),
-//                  categoriesHorizontalTabs(tabs),
-//                  categoriesTabs(tabsData),
-//                ],
-//              ),
+              ),
             );
           },
         ),
       ),
+    );
+  }
+
+  headerContent() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                left: 20.0,
+                top: 15.0,
+              ),
+              child: Text(
+                'Emisiones',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+            ),
+          ],
+        ),
+        LastBroadCastList(),
+      ],
     );
   }
 
