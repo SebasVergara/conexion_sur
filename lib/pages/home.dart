@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
           title: Image.asset(
             "assets/images/logoBK.png",
             height: 35.0,
