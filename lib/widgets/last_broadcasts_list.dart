@@ -19,12 +19,20 @@ class _LastBroadCastListState extends State<LastBroadCastList>
   void initState() {
     super.initState();
 
-    API.getBroadcastList().then((_broadcast) {
+    API.getBroadcastLive().then((_broadcast) {
       setState(() {
-        isLoading = false;
+//        isLoading = false;
         broadcasts.addAll(_broadcast);
       });
+      API.getBroadcastList().then((_broadcast) {
+        setState(() {
+          isLoading = false;
+          broadcasts.addAll(_broadcast);
+        });
+      });
     });
+
+
   }
 
   @override

@@ -8,7 +8,7 @@ class Post {
   List<dynamic> postContent;
   dynamic postImages;
 
-  String get date => DateFormat('dd/MM/yy - h:mm a').format(DateTime.parse(this.createdDate)).toString();
+  String get date => DateFormat('dd/MM/yy - h:mm a').format(DateTime.parse((this.createdDate).replaceAll('Z', '+05:00'))).toString();
 
   Post({
     this.id,
@@ -46,7 +46,7 @@ class StaticImage {
 
   generateURL() {
     var staticUrl;
-    staticUrl = "https://static.wixstatic.com/media/" + url + "/v1/fit/w_300,h_300,al_c,q_5/file.png";
+    staticUrl = "https://static.wixstatic.com/media/" + url + "/v1/fit/w_450,h_450,al_c,q_5/file.png";
     return staticUrl;
   }
 }

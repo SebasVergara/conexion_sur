@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:conexionsur/models/broadcast.dart';
+import 'package:conexionsur/pages/broadcast.dart';
 
 import 'cached_image.dart';
 
@@ -37,14 +38,42 @@ class LastBroadcastsCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
 //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 160.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30.0),
-                    child: AspectRatio(
-                        aspectRatio: 5 / 3,
-                        child: CachedImage(broadcast.thumbnail),
+                GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => VideoBroadcast(broadcast))),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: 160.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: AspectRatio(
+                          aspectRatio: 5 / 3,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: <Widget>[
+                              CachedImage(broadcast.thumbnail),
+                              if(broadcast.live == true)
+                                Positioned(
+                                  right: 10,
+                                  top: 5,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(10.0)
+                                    ),
+                                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+                                    child: Text(
+                                      "En vivo",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+//                            child: CachedImage(broadcast.thumbnail)
+                          ),
+                      ),
                     ),
                   ),
                 ),

@@ -35,6 +35,9 @@ class News extends StatelessWidget {
 
         }
       }
+      if( i == 1) {
+        newsContent.add(postTitle(context));
+      }
     }
     return Scaffold(
       body: SafeArea(
@@ -42,35 +45,10 @@ class News extends StatelessWidget {
           children: [
             CustomScrollView(
               slivers: [
-  //          SliverAppBar(
-  //            title: null,
-  //            actions: [],
-  //            leading: null,
-  //            toolbarHeight: 20.0,
-  //            floating: false,
-  //            pinned: true,
-  //            shadowColor: Colors.transparent,
-  //            bottom: PreferredSize(
-  //              child: Text('f'),
-  //            ),
-  ////            expandedHeight: 200,
-  //            flexibleSpace: FlexibleSpaceBar(
-  ////              background: Hero(
-  ////                tag: post.id,
-  ////                child: CachedImage(
-  ////                  post.featuredImage.toString(),
-  ////                  width: 100,
-  ////                  height: 95,
-  ////                  fit: BoxFit.fitWidth,
-  ////                  align: Alignment.center,
-  ////                ),
-  ////              ),
-  //            ),
-  //          ),
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      Padding(padding: EdgeInsets.symmetric(vertical: 35.0))
+                      Padding(padding: EdgeInsets.symmetric(vertical: 35.0)),
                     ]
                   ),
                 ),
@@ -107,7 +85,7 @@ class News extends StatelessWidget {
             text,
             textAlign: TextAlign.justify,
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: 17.0,
             ),
           ),
         ),
@@ -136,7 +114,7 @@ class News extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(
         autoPlay: false,
-        aspectRatio: 2.0,
+        aspectRatio: 1.6,
         enlargeCenterPage: true,
         autoPlayInterval: Duration(seconds: 3),
       ),
@@ -151,12 +129,22 @@ class News extends StatelessWidget {
               ),
               child: Image.network(
                 imgUrl,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             );
           },
         );
       }).toList(),
+    );
+  }
+  Widget postTitle(context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 25.0),
+      child: Text(
+        post.title,
+        style: Theme.of(context).textTheme.headline3,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

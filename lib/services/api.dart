@@ -5,6 +5,8 @@ import 'package:conexionsur/models/broadcast.dart';
 import 'package:conexionsur/models/category.dart';
 import 'package:conexionsur/models/post.dart';
 
+import '../globals.dart' as globals;
+
 import '../constants.dart';
 
 class API {
@@ -34,7 +36,7 @@ class API {
 
     try {
 
-      dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/categories?offset=0&size=500", headers: {"Authorization": AUTH_TOKEN});
+      dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/categories?offset=0&size=500", headers: {"Authorization": globals.authToken});
       dynamic json = jsonDecode(response.body);
 
       (json as List).forEach((v) {
@@ -53,7 +55,7 @@ class API {
     try {
       String extra = category != '0' ? '&categoryIds=' + '$category' : '';
 
-      dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/posts?size=10&offset=$offset" + extra, headers: {"Authorization": AUTH_TOKEN});
+      dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/posts?size=10&offset=$offset" + extra, headers: {"Authorization": globals.authToken});
       dynamic json = jsonDecode(response.body);
 
       (json as List).forEach((v) {
@@ -66,4 +68,48 @@ class API {
     return list;
   }
 
+  static Future<Post> getPost({String slug = '0'}) async {
+    Post news;
+    try {
+
+      dynamic response = await http.get(BASE_URL + "/communities-blog-node-api/_api/posts/content/$slug", headers: {"Authorization": globals.authToken});
+      dynamic json = jsonDecode(response.body);
+
+      news = Post.fromJson(json);
+
+    } catch (e) {
+      print(e);
+      //TODO Handle No Internet Response
+    }
+    print(news.title);
+    return news;
+  }
+
+  static Future<dynamic> fetchAuthToken() async {
+    final response = await http.get(URL + '_api/v2/dynamicmodel');
+
+    if (response.statusCode == 200) {
+      globals.authToken = jsonDecode(response.body)['apps']['139ef4fa-c108-8f9a-c7be-d5f492a2c939']['instance'];
+      return (jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  static Future<List<Broadcast>> getBroadcastLive() async {
+    List<Broadcast> broadcast = List();
+    try {
+
+      dynamic response = await http.get(LIVE_URL);
+      dynamic json = jsonDecode(response.body)['items'];
+
+      (json as List).forEach((v) {
+        broadcast.add(Broadcast.fromJson(v));
+      });
+    } catch (e) {
+      print(e);
+      //TODO Handle No Internet Response
+    }
+    return broadcast;
+  }
 }
