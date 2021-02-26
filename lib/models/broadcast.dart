@@ -16,7 +16,7 @@ class Broadcast {
     title = json['snippet']['title'];
     publishedAt = json['snippet']['publishedAt'];
     thumbnail = json['snippet']['thumbnails']['medium']['url'];
-    videoId = json.containsKey('contentDetails') ? json['contentDetails']['videoId'] : json['id'].containsKey('videoId') ? json['id']['videoId'] : json['id'];
+    videoId = json.containsKey('contentDetails') ? json['contentDetails']['videoId'] : json['id']['videoId'];
     live = json['snippet'].containsKey('liveBroadcastContent') ? true : false;
   }
 

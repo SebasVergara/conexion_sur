@@ -1,16 +1,10 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import 'package:conexionsur/models/broadcast.dart';
 import 'package:conexionsur/services/api.dart';
+import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 import 'package:conexionsur/widgets/post_list.dart';
 import 'package:conexionsur/widgets/last_broadcasts_list.dart';
 import 'package:conexionsur/pages/news.dart';
-import 'package:conexionsur/pages/broadcast.dart';
 import 'package:conexionsur/models/post.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,23 +29,8 @@ class _HomePageState extends State<HomePage> {
           if (dataNotification.containsKey('notice')) {
             Post post;
             post = await API.getPost(slug: dataNotification['notice']);
-            FirebaseAnalytics().logEvent(name: 'open_news',parameters: {'News':post.title});
-            await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => News(post),
-                  settings: RouteSettings(name: 'News'),
-                )
-            );
-          } else if (dataNotification.containsKey('live')) {
-            Broadcast broadcast;
-            broadcast = await API.getBroadcast(id: dataNotification['live']);
-            FirebaseAnalytics().logEvent(name: 'open_broadcast',parameters: {'News':broadcast.title});
-            await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => VideoBroadcast(broadcast),
-                  settings: RouteSettings(name: 'VideoBroadcast'),
-                )
-            );
+            await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => News(post)));
           }
         });
   }
@@ -63,20 +42,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
           title: Image.asset(
-            "assets/images/logo.png",
+            "assets/images/logoBK.png",
             height: 35.0,
           ),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: SvgPicture.asset(
-              "assets/images/menu.svg",
-              height: 25,
-              width: 34,
-              color: Color(0xFF294793),
-            ),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
         automaticallyImplyLeading: false,
       ),
       drawer: drawerMenu(),
@@ -244,141 +212,92 @@ class _HomePageState extends State<HomePage> {
     return Drawer(
       child: Column(
         children: <Widget>[
+//          SizedBox(
+//            height: 30,
+//          ),
+//          DrawerHeader(
+//            child: Container(
+//                height: 142,
+//                width: MediaQuery.of(context).size.width,
+//                child: Image.asset(
+//                  "assets/images/ten_news.png",
+//                )),
+//            decoration: BoxDecoration(
+//              color: Colors.transparent,
+//            ),
+//          ),
+//          SizedBox(
+//            height: 20,
+//          ),
+//          GestureDetector(
+//            onTap: () {
+//              setState(() {
+//                currentIndex = 3;
+//              });
+//              Navigator.of(context).pop();
+//            },
+//            child: Text(
+//              'Profile',
+//              style: TextStyle(
+//                fontFamily: 'Avenir',
+//                fontSize: 24,
+//                fontWeight: FontWeight.w700,
+//              ),
+//              textAlign: TextAlign.center,
+//            ),
+//          ),
           SizedBox(
-            height: 10,
+            height: 45,
           ),
-          DrawerHeader(
-            child: Container(
-//                height: 100,
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: Image.asset(
-                  "assets/images/logo.png",
-                )),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          GestureDetector(
+            onTap: () {},
             child: Text(
-              "Síguenos en:",
-              textAlign: TextAlign.center,
+              'Settings',
               style: TextStyle(
-                fontSize: 20.0,
-                fontStyle: FontStyle.italic,
-                fontFamily: 'Galano',
+                fontFamily: 'Avenir',
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
-            height: 25,
+            height: 45,
           ),
-          GestureDetector(
-            onTap: () {
-              _launchURL("https://www.instagram.com/conexionsuroficial/");
-              Navigator.of(context).pop();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(MdiIcons.instagram),
-                Text(
-                  ' Instagram',
-                  style: TextStyle(
-                    fontFamily: 'Galano',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+          Text(
+            'About',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
             ),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 25,
+            height: 45,
           ),
-          GestureDetector(
-            onTap: () {
-              _launchURL("https://www.facebook.com/ConexionSur1/");
-              Navigator.of(context).pop();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(MdiIcons.facebook),
-                Text(
-                  ' Facebook',
-                  style: TextStyle(
-                    fontFamily: 'Galano',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+          Text(
+            'Log Out',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
             ),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 25,
-          ),
-          GestureDetector(
-            onTap: () {
-              _launchURL("https://twitter.com/ConexionSur1");
-              Navigator.of(context).pop();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(MdiIcons.twitter),
-                Text(
-                  ' Twitter',
-                  style: TextStyle(
-                    fontFamily: 'Galano',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          GestureDetector(
-            onTap: () {
-              _launchURL("https://www.youtube.com/c/CONEXI%C3%93NSUR");
-              Navigator.of(context).pop();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(MdiIcons.youtube),
-                Text(
-                  ' YouTube',
-                  style: TextStyle(
-                    fontFamily: 'Galano',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 15,
+            height: 45,
           ),
           Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 40,
+                  height: 65,
                   width: MediaQuery.of(context).size.width,
-                  color: Color(0xFF294793),
+                  color: Colors.black,
                   child: Center(
                     child: Text(
-                      'v1.0.0',
+                      'v1.0.1',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 20,
@@ -392,13 +311,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-}
-
-void _launchURL(url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

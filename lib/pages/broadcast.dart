@@ -1,9 +1,6 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-
 import 'package:conexionsur/models/broadcast.dart';
-import 'package:conexionsur/services/share.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 // ignore: must_be_immutable
 class VideoBroadcast extends StatelessWidget {
@@ -68,22 +65,8 @@ class VideoBroadcast extends StatelessWidget {
                 child: FloatingActionButton(
                   backgroundColor: Color(0xFF0045ba),
                   child: Icon(Icons.arrow_back),
-                  heroTag: broadcast.videoId + 'back',
                   onPressed: () {
                     Navigator.pop(context);
-                  },
-                ),
-              ),
-              Positioned(
-                right: 10,
-                top: 10,
-                child: FloatingActionButton(
-                  backgroundColor: Color(0xFF0045ba),
-                  child: Icon(Icons.share),
-                  heroTag: broadcast.videoId + 'share',
-                  onPressed: () {
-                    FirebaseAnalytics().logEvent(name: 'share_broadcast',parameters: {'Broadcast':broadcast.videoId});
-                    Share.shareBroadcast(broadcast.title, broadcast.videoId);
                   },
                 ),
               ),

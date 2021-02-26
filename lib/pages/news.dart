@@ -1,5 +1,3 @@
-import 'package:conexionsur/services/share.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -65,24 +63,10 @@ class News extends StatelessWidget {
               left: 10,
               top: 10,
               child: FloatingActionButton(
-                heroTag: post.id + 'back',
                 backgroundColor: Color(0xFF0045ba),
                 child: Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
-                },
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: 10,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xFF0045ba),
-                child: Icon(Icons.share),
-                heroTag: post.id + 'share',
-                onPressed: () {
-                  FirebaseAnalytics().logEvent(name: 'share_news',parameters: {'News':post.title});
-                  Share.shareNews(post.title, post.slug);
                 },
               ),
             ),

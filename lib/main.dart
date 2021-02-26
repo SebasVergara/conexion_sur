@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 
 import 'package:conexionsur/services/theme_changer.dart';
 import 'package:conexionsur/theme.dart';
@@ -25,8 +23,6 @@ class MyApp extends StatelessWidget {
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
-    FirebaseAnalytics analytics = FirebaseAnalytics();
-
     return ChangeNotifierProvider<ThemeChanger>(
       create: (_) => ThemeChanger(),
       child: Builder(builder: (context) {
@@ -37,9 +33,6 @@ class MyApp extends StatelessWidget {
           darkTheme: Style.get(true),
           theme: Style.get(false),
           home: HomePage(),
-          navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: analytics),
-          ],
         );
       }),
     );
