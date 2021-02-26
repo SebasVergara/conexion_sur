@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "762789727226",
+    "project_id": "conexion-sur-noticias",
+    "storage_bucket": "conexion-sur-noticias.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762789727226:android:f70fd2f78971a0112f3243",
+        "android_client_info": {
+          "package_name": "com.conexionsur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762789727226-qpab5ce09ir0ntbvcdlo0mlgu7q0l0jc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.conexionsur",
+            "certificate_hash": "70938bef45d1fe9104c9aac651c2fc29c0193dfe"
+          }
+        },
+        {
+          "client_id": "762789727226-u7v97j7fll56p2qtp2vkq6aa6le1cdn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvw5GEf3ZoKlcNLNhwttT3PxAhlYmUalk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762789727226-u7v97j7fll56p2qtp2vkq6aa6le1cdn5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

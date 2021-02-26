@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,10 +8,30 @@ import 'package:conexionsur/pages/broadcast.dart';
 
 import 'cached_image.dart';
 
-class LastBroadcastsCard extends StatelessWidget {
+class LastBroadcastsCard extends StatefulWidget {
   final Broadcast broadcast;
 
   LastBroadcastsCard(this.broadcast);
+
+  @override
+  _LastBroadcastsCardState createState() => _LastBroadcastsCardState();
+}
+
+class _LastBroadcastsCardState extends State<LastBroadcastsCard> with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+  Animation _animation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(vsync: this,duration: Duration(seconds: 2));
+    _animationController.repeat(reverse: true);
+    _animation =  Tween(begin: 2.0,end: 12.0).animate(_animationController)..addListener((){
+      setState(() {
+
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +60,16 @@ class LastBroadcastsCard extends StatelessWidget {
 //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => VideoBroadcast(broadcast))),
+                  onTap: () => {
+                    FirebaseAnalytics().logEvent(name: 'open_broadcast',parameters: {'News':widget.broadcast.title}),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VideoBroadcast(widget.broadcast),
+                        settings: RouteSettings(name: 'VideoBroadcast'),
+                      )
+                    )
+                  },
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: 160.0,
@@ -50,15 +80,21 @@ class LastBroadcastsCard extends StatelessWidget {
                           child: Stack(
                             fit: StackFit.expand,
                             children: <Widget>[
-                              CachedImage(broadcast.thumbnail),
-                              if(broadcast.live == true)
+                              CachedImage(widget.broadcast.thumbnail),
+                              if(widget.broadcast.live == true)
                                 Positioned(
                                   right: 10,
                                   top: 5,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.red,
-                                      borderRadius: BorderRadius.circular(10.0)
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      boxShadow: [BoxShadow(
+                                        color: Color.fromARGB(130, 237, 125, 58),
+                                        blurRadius: _animation.value,
+                                        spreadRadius: _animation.value
+                                      )],
+
                                     ),
                                     padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
                                     child: Text(
@@ -86,7 +122,7 @@ class LastBroadcastsCard extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 16.0),
                         child: AutoSizeText(
-                          broadcast.title,
+                          widget.broadcast.title,
                           style: Theme.of(context).textTheme.headline3,
                           maxLines: 2,
                           minFontSize: 16,

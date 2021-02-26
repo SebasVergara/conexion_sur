@@ -5,6 +5,7 @@ class Post {
   String title;
   String createdDate;
   String featuredImage;
+  String slug;
   List<dynamic> postContent;
   dynamic postImages;
 
@@ -15,6 +16,7 @@ class Post {
     this.title,
     this.createdDate,
     this.featuredImage,
+    this.slug,
     this.postContent,
     this.postImages
   });
@@ -24,6 +26,7 @@ class Post {
     title = json['title'];
     createdDate = json['createdDate'];
     featuredImage = StaticImage(json['content']['entityMap']["0"]['data']['src']['file_name']).generateURL();
+    slug = json['slug'];
     postContent = json['content']['blocks'];
     postImages = json['content']['entityMap'];
   }
@@ -33,6 +36,7 @@ class Post {
     data['id'] = this.id;
     data['createdDate'] = this.createdDate;
     data['featuredImage'] = this.featuredImage;
+    data['slug'] = this.slug;
     data['postContent'] = this.postContent;
     data['postImages'] = this.postImages;
     return data;
