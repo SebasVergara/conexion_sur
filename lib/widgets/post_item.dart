@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -18,7 +19,16 @@ class PostItem extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => News(post))),
+            onTap: () => {
+              FirebaseAnalytics().logEvent(name: 'open_news',parameters: {'News':post.title}),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => News(post),
+                  settings: RouteSettings(name: 'News'),
+                ),
+              )
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xCCFFFFFF),
@@ -39,7 +49,7 @@ class PostItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 14.0),
                       child: Hero(
-                        tag: post.id,
+                        tag: post.id + 'CS',
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: CachedImage(
