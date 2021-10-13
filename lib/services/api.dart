@@ -116,7 +116,7 @@ class API {
     Broadcast broadcast;
     try {
 
-      dynamic response = await http.get("https://youtube.googleapis.com/youtube/v3/videos?part=id%2C%20snippet%2C%20contentDetails&id=$id&maxResults=1&key=AIzaSyBMDLUoNw8wwbDlpDm9Pp3b3BiW2mJbepY");
+      dynamic response = await http.get("https://youtube.googleapis.com/youtube/v3/videos?part=id%2C%20snippet%2C%20contentDetails&id=$id&maxResults=1&key={{API_KEY}}");
       dynamic json = jsonDecode(response.body)['items'][0];
       print('broadcast1');
       print(json);
